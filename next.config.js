@@ -4,13 +4,18 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    //https://avatars.githubusercontent.com/u/36642059?v=4
     remotePatterns: [
       {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
         port: "",
         pathname: "/u/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/a/**"
       },
     ],
   },

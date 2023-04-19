@@ -1,12 +1,12 @@
 "use client"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import Image from "next/image";
-import { MessageAlert } from "./MessageAlert";
+import Logout from "./../../public/logout-svgrepo-com.svg"
 
 export const Header = () => {
   const { data: session } = useSession()
   return (
-    <header className="absolute top-0 left-0 w-full flex justify-between items-center p-3 backdrop-blur-3xl bg-white/50 shadow-md">
+    <header className="absolute top-0 left-0 w-full h-[50px] flex justify-between items-center p-3 backdrop-blur-3xl bg-white/50 shadow-md">
       <section>
         FIND FEELINGS
       </section>
@@ -14,15 +14,14 @@ export const Header = () => {
         {session &&
           (
             <>
-              <button className="rounded-md bg-red-600 text-white p-1" onClick={() => signOut()}>Cerrar sesión</button>
               <div className="flex justify-center items-center gap-2">
                 <span className="font-black">{session.user?.name}</span>
                 <Image 
                   src={session.user?.image ?? ''}
                   alt="Imagen user"
-                  width={32}
-                  height={24}
-                  className="rounded-full"
+                  width={40}
+                  height={40}
+                  className="rounded-full shadow-md border-gray-300 border-[1px]"
                 />
               </div>
             </>
