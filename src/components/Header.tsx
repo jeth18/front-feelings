@@ -1,7 +1,15 @@
 "use client"
 import { signOut, useSession } from "next-auth/react"
 import Image from "next/image";
-import Logout from "./../../public/logout-svgrepo-com.svg"
+import { Menu } from "./Menu";
+
+const DATA = [
+  {
+    id: 1,
+    description: "Cerrar sesión",
+    event: signOut
+  }
+]
 
 export const Header = () => {
   const { data: session } = useSession()
@@ -11,21 +19,12 @@ export const Header = () => {
         FIND FEELINGS
       </section>
       <section className="flex gap-2">
-        {session &&
-          (
-            <>
-              <div className="flex justify-center items-center gap-2">
-                <span className="font-black">{session.user?.name}</span>
-                <Image 
-                  src={session.user?.image ?? ''}
-                  alt="Imagen user"
-                  width={40}
-                  height={40}
-                  className="rounded-full shadow-md border-gray-300 border-[1px]"
-                />
-              </div>
-            </>
-          ) 
+        { session && 
+          <Menu 
+            header={session.user?.name}
+            list={DATA}
+            img={session.user?.image}
+          />
         }
       </section>
     </header>
