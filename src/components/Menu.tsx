@@ -1,10 +1,13 @@
+import { useOutsideAlerter } from "@/hooks/useOutsideAlerter";
 import Image from "next/image";
-import { useState } from "react";
+import { ReactNode, useRef } from "react";
+import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
 
 interface IDataMenu {
   id: number;
   description: string;
   event?: any;
+  icon?: ReactNode
 }
 
 interface IMenu {
@@ -14,13 +17,14 @@ interface IMenu {
 }
 
 export const Menu = ({ header = "username", list, img }: IMenu) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
+  const [isOpen, setIsOpen] = useOutsideAlerter(wrapperRef)
 
   return (
-    <div className="flex flex-col gap-2">
-      <main className="bg-slate-200 border-gray-400 border-solid borde-[1px] rounded-full pl-2 pr-2 relative">
+    <div className="flex flex-col gap-2 w-min z-50 items-end cursor-pointer" ref={wrapperRef}>
+      <main className="relative w-max bg-white border-gray-400 shadow-sm border-solid borde-[1px] rounded-full pl-1 pr-1 cursor-pointer">
         <section
-          className="flex gap-1 p-1 items-center"
+          className="flex gap-2 p-1 items-center"
           onClick={() => setIsOpen(!isOpen)}
         >
           {img && (
@@ -33,20 +37,21 @@ export const Menu = ({ header = "username", list, img }: IMenu) => {
             />
           )}
           <span className="text-[14px]">{header}</span>
-          {/* ICON */}
+          {isOpen ? <AiOutlineCaretUp/> : <AiOutlineCaretDown/>}
         </section>
       </main>
-      {isOpen && (
-        <section id="list" className={`${isOpen ? "block" : "hidden"} absolute top-[55px] bg-white rounded-2xl p-4`}>
+    
+        <section id="list" className={`${isOpen ? "block" : "hidden"} absolute top-[55px] bg-white rounded-2xl p-4 z-50`}>
           {list.map((el) => {
             return (
-              <div key={el.id}>
-                <span onClick={el.event && el.event}>{el.description}</span>
-              </div>
+              <button key={el.id} className="flex gap-2 items-center cursor-pointer">
+                <span onClick={el?.event}>{el.description}</span>
+                {el.icon}
+              </button>
             );
           })}
         </section>
-      )}
+      
     </div>
   );
 };

@@ -7,7 +7,7 @@ export const Login = () => {
   const { data: session } = useSession()
   const show = !session ? 'display-modal' : 'display-none'
   return (
-    <div className={`modal ${show}`}>
+    <div className={`modal ${show} z-50`}>
       <section className='modal-main'>
         <section className='flex flex-col gap-2 p-4'>
           <button className="bg-gray-800 rounded-md p-2 pt-3 pb-3 shadow-md text-white flex gap-2 min-w-[300px] justify-center items-center" onClick={() => signIn("github")}>
