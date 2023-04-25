@@ -37,6 +37,9 @@ dependencies:
   react-icons:
     specifier: ^4.8.0
     version: 4.8.0(react@18.2.0)
+  sonner:
+    specifier: ^0.3.2
+    version: 0.3.2(react-dom@18.2.0)(react@18.2.0)
   tailwindcss:
     specifier: 3.3.1
     version: 3.3.1(postcss@8.4.21)
@@ -2333,6 +2336,16 @@ packages:
   /slash@4.0.0:
     resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
     engines: {node: '>=12'}
+    dev: false
+
+  /sonner@0.3.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-pGT5AI2rPegCesw/Im9xkDgurxAsuJBSH7Z9/+Oeszq5AKorC5YdlieMhwDr+jex+qQCIFA2nAjXsTX/u6aS9A==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /source-map-js@1.0.2:

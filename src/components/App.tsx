@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { Toaster, toast } from 'sonner'
 
 export const MyApp = () => {
   
@@ -7,6 +8,8 @@ export const MyApp = () => {
   const [text, setText] = useState("")
 
   const getData = () => {
+    if (!text.length) return toast.error('No ha escrito nada, por favor escriba lo que siente')
+
     setData({
       feelings: ["contento", "alegre"],
       steps: ["disfrutar del día", "tener una actitud positiva"]
@@ -15,9 +18,19 @@ export const MyApp = () => {
   
   return (
     <>
+      <Toaster position="bottom-center"/>
       <section className="flex flex-row gap-2 h-[400px] flex-wrap">
         <article className={`relative backdrop-blur-3xl bg-white/40 rounded-xl min-w-[400px] h-auto shadow-md z-10 ${data && 'animate-show_data_left'}`}>
-          <textarea autoComplete="off" onChange={(e) => setText(e.target.value)} className="p-3 outline-none resize-none bg-transparent overflow-auto h-full w-full" placeholder="Escribe lo que sientes..."></textarea>
+          <textarea 
+            autoComplete="off" 
+            onChange={(e) => setText(e.target.value)} 
+            className="p-3 outline-none resize-none bg-transparent overflow-auto h-full w-full" 
+            placeholder="Escribe lo que sientes..."
+            maxLength={150}
+            value={text}
+            >
+          </textarea>
+          <span className="absolute bottom-0 right-0 p-2 text-xs text-gray-400">{text.length} / 150</span>
         </article>
         <article className={`relative flex flex-col gap-2 flex-wrap ${data ? 'display' : 'hidden'} animate-show_data z-0`}>
           <div id="emojis" className="flex items-center gap-2 p-4 min-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[80px] shadow-md">
