@@ -9,18 +9,15 @@ export const MyApp = () => {
 
   const getData = () => {
     if (!text.length) return toast.error('No ha escrito nada, por favor escriba lo que siente')
+    if (text.length < 10) return toast.error('Ha escrito una palabra muy corta')
 
-    setData({
-      feelings: ["contento", "alegre"],
-      steps: ["disfrutar del día", "tener una actitud positiva"]
-    })
   }
   
   return (
     <>
       <Toaster position="bottom-center"/>
       <section className="flex flex-row gap-2 h-[400px] flex-wrap">
-        <article className={`relative backdrop-blur-3xl bg-white/40 rounded-xl min-w-[400px] h-auto shadow-md z-10 ${data && 'animate-show_data_left'}`}>
+        <div className={`relative backdrop-blur-3xl bg-white/40 rounded-xl min-w-[400px] h-auto shadow-md z-10 ${data && 'animate-show_data_left'}`}>
           <textarea 
             autoComplete="off" 
             onChange={(e) => setText(e.target.value)} 
@@ -31,27 +28,33 @@ export const MyApp = () => {
             >
           </textarea>
           <span className="absolute bottom-0 right-0 p-2 text-xs text-gray-400">{text.length} / 150</span>
-        </article>
-        <article className={`relative flex flex-col gap-2 flex-wrap ${data ? 'display' : 'hidden'} animate-show_data z-0`}>
-          <div id="emojis" className="flex items-center gap-2 p-4 min-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[80px] shadow-md">
-            { 
-              data && data.feelings.map((feel, index)=> {
-                return (
-                  <span className="p-2 bg-blue-200 rounded-xl border-blue-400 border-[1px] text-black" key={index}>{feel}</span>
-                )
-              }) 
-            } 
+        </div>
+        <div className={`relative flex gap-2 flex-wrap ${data ? 'display' : 'hidden'} animate-show_data z-0`}>
+          <div className="flex flex-col gap-2 flex-wrap">
+            <div id="emojis" className="flex items-center gap-2 p-4 min-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[80px] shadow-md">
+              {
+                data && data.feelings.map((feel, index) => {
+                  return (
+                    <span className="p-2 bg-blue-200 rounded-xl border-blue-400 border-[1px] text-black" key={index}>{feel}</span>
+                  )
+                })
+              }
+            </div>
+            <div className="flex flex-col gap-2 p-4 max-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[310px] shadow-md">
+              {
+                data && data.steps.map((step, index) => {
+                  return (
+                    <span className="bg-white pl-2 pr-2 pt-3 pb-3 rounded-xl shadow-md" key={index}>{step}</span>
+                  )
+                })
+              }
+            </div>
           </div>
-          <div className="flex flex-col gap-2 p-4 max-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[310px] shadow-md">
-            {
-              data && data.steps.map((step, index) => {
-                return (
-                  <span className="bg-white pl-2 pr-2 pt-3 pb-3 rounded-xl shadow-md" key={index}>{step}</span>
-                )
-              })
-            } 
-          </div>
-        </article>
+          <section id="NOTA" className="bg-white rounded-md w-52 h-min right-4 text-sm p-3">
+            Tenga en cuenta que las emociones y los consejos proporcionados son sugerencias generales y
+            no deben considerarse un sustituto del consejo o tratamiento profesional de salud mental.
+          </section>
+        </div>
       </section>
       
       <div className="flex m-2 gap-2 mt-2">

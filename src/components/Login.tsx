@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import GitHub from '../../public/github-mark-white.svg'
 import Google from '../../public/google-mark.svg'
@@ -6,6 +6,16 @@ import Google from '../../public/google-mark.svg'
 export const Login = () => {
   const { data: session } = useSession()
   const show = !session ? 'display-modal' : 'display-none'
+
+  if(session) {
+    const expiresAt = new Date(session.expires);
+    const hasExpired = expiresAt < new Date();
+
+    if (hasExpired) {
+      signOut()
+    }  
+  }
+
   return (
     <div className={`modal ${show} z-50`}>
       <article className='modal-main'>
