@@ -1,16 +1,35 @@
 "use client"
-import { useState } from "react";
+
+import { useState } from 'react'
 import { Toaster, toast } from 'sonner'
+import axios from 'axios'
+
+const getFeelings = async (text: string) => {
+  try {
+    const response = await axios.post('http://localhost:3001/getFeeling', {
+      text: text 
+    })
+    return response
+  } catch (error: any) {
+    return error.response.data
+  }
+}
+
 
 export const MyApp = () => {
   
-  const [data, setData] = useState<{ feelings: string[], steps: string[]} | null>(null)
+  const [data, setData] = useState<{ feelings: string[], tips: string[]} | null>(null)
   const [text, setText] = useState("")
 
-  const getData = () => {
+  const getData = async () => {
     if (!text.length) return toast.error('No ha escrito nada, por favor escriba lo que siente')
     if (text.length < 10) return toast.error('Ha escrito una palabra muy corta')
 
+    const response:any = await getFeelings(text)
+    
+    if(response.error) return toast.error(response.error)
+    
+    setData(response)
   }
   
   return (
@@ -30,8 +49,8 @@ export const MyApp = () => {
           <span className="absolute bottom-0 right-0 p-2 text-xs text-gray-400">{text.length} / 150</span>
         </div>
         <div className={`relative flex gap-2 flex-wrap ${data ? 'display' : 'hidden'} animate-show_data z-0`}>
-          <div className="flex flex-col gap-2 flex-wrap">
-            <div id="emojis" className="flex items-center gap-2 p-4 min-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[80px] shadow-md">
+          <section className="flex flex-col gap-2 flex-wrap">
+            <div className="flex items-center gap-2 p-4 min-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[80px] shadow-md">
               {
                 data && data.feelings.map((feel, index) => {
                   return (
@@ -42,14 +61,14 @@ export const MyApp = () => {
             </div>
             <div className="flex flex-col gap-2 p-4 max-w-[400px] backdrop-blur-3xl rounded-xl bg-white/60 rounded-x h-[310px] shadow-md">
               {
-                data && data.steps.map((step, index) => {
+                data && data.tips.map((step, index) => {
                   return (
                     <span className="bg-white pl-2 pr-2 pt-3 pb-3 rounded-xl shadow-md" key={index}>{step}</span>
                   )
                 })
               }
             </div>
-          </div>
+          </section>
           <section id="NOTA" className="bg-white rounded-md w-52 h-min right-4 text-sm p-3">
             Tenga en cuenta que las emociones y los consejos proporcionados son sugerencias generales y
             no deben considerarse un sustituto del consejo o tratamiento profesional de salud mental.
